@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: my-fullstack-app
+    env: node
+    plan: free  # or standard, depending on your needs
+    buildCommand: npm run build
+    startCommand: npm run start
+    rootDir: .
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DATABASE_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false

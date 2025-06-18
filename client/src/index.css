@@ -1,0 +1,294 @@
+/* Leaflet CSS */
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fix Leaflet map display issues */
+.leaflet-container {
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 1;
+}
+
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Custom HR Platform Colors */
+  --primary-50: hsl(207, 89%, 96%);
+  --primary-100: hsl(207, 89%, 91%);
+  --primary-500: hsl(207, 90%, 54%);
+  --primary-600: hsl(207, 90%, 48%);
+  --primary-700: hsl(207, 90%, 40%);
+  --charcoal-500: hsl(0, 0%, 26%);
+  --charcoal-600: hsl(0, 0%, 21%);
+  --charcoal-700: hsl(0, 0%, 16%);
+  
+  /* Sidebar colors */
+  --sidebar-background: hsl(0, 0%, 100%);
+  --sidebar-foreground: hsl(20, 14.3%, 4.1%);
+  --sidebar-primary: hsl(207, 90%, 54%);
+  --sidebar-primary-foreground: hsl(211, 100%, 99%);
+  --sidebar-accent: hsl(60, 4.8%, 95.9%);
+  --sidebar-accent-foreground: hsl(24, 9.8%, 10%);
+  --sidebar-border: hsl(20, 5.9%, 90%);
+  --sidebar-ring: hsl(20, 14.3%, 4.1%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  
+  /* Dark mode custom colors */
+  --primary-50: hsl(207, 89%, 8%);
+  --primary-100: hsl(207, 89%, 12%);
+  --primary-500: hsl(207, 90%, 54%);
+  --primary-600: hsl(207, 90%, 48%);
+  --primary-700: hsl(207, 90%, 40%);
+  --charcoal-500: hsl(0, 0%, 80%);
+  --charcoal-600: hsl(0, 0%, 85%);
+  --charcoal-700: hsl(0, 0%, 90%);
+  
+  /* Dark sidebar colors */
+  --sidebar-background: hsl(240, 10%, 3.9%);
+  --sidebar-foreground: hsl(0, 0%, 98%);
+  --sidebar-primary: hsl(207, 90%, 54%);
+  --sidebar-primary-foreground: hsl(211, 100%, 99%);
+  --sidebar-accent: hsl(240, 3.7%, 15.9%);
+  --sidebar-accent-foreground: hsl(0, 0%, 98%);
+  --sidebar-border: hsl(240, 3.7%, 15.9%);
+  --sidebar-ring: hsl(240, 4.9%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply h-full;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground h-full;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Ensure all containers are responsive */
+  #root {
+    @apply h-full;
+  }
+}
+
+@layer components {
+  .primary-bg {
+    background-color: var(--primary-500);
+  }
+  
+  .primary-bg-50 {
+    background-color: var(--primary-50);
+  }
+  
+  .primary-bg-100 {
+    background-color: var(--primary-100);
+  }
+  
+  .primary-text {
+    color: var(--primary-500);
+  }
+  
+  .primary-text-600 {
+    color: var(--primary-600);
+  }
+  
+  .primary-text-700 {
+    color: var(--primary-700);
+  }
+  
+  .charcoal-text {
+    color: var(--charcoal-700);
+  }
+  
+  .charcoal-text-500 {
+    color: var(--charcoal-500);
+  }
+  
+  .charcoal-text-600 {
+    color: var(--charcoal-600);
+  }
+}
+
+/* Animation for live updates */
+@keyframes pulse-green {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-green {
+  animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground));
+}
+
+/* Responsive utilities */
+.container-responsive {
+  @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+}
+
+.card-responsive {
+  @apply p-4 sm:p-6 rounded-lg border bg-card shadow-sm;
+}
+
+.text-responsive {
+  @apply text-sm sm:text-base;
+}
+
+.heading-responsive {
+  @apply text-xl sm:text-2xl lg:text-3xl font-bold;
+}
+
+.button-responsive {
+  @apply px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base;
+}
+
+/* Chat window styles */
+.chat-window {
+  @apply max-h-96 sm:max-h-[500px] overflow-y-auto;
+}
+
+/* Mobile-first layout helpers */
+.mobile-stack {
+  @apply flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-6;
+}
+
+.mobile-hidden {
+  @apply hidden sm:block;
+}
+
+.desktop-hidden {
+  @apply block sm:hidden;
+}
+
+/* Enhanced responsive grid for dashboard cards */
+.dashboard-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6;
+}
+
+.stats-grid {
+  @apply grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6;
+}
+
+/* Table responsive behavior */
+.table-responsive {
+  @apply overflow-x-auto;
+}
+
+.table-responsive table {
+  @apply min-w-full;
+}
+
+/* Form responsive layouts */
+.form-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+}
+
+.form-row {
+  @apply flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4;
+}
+
+/* Attendance status indicators */
+.status-present {
+  @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.status-absent {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.status-late {
+  @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.status-break {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.status-remote {
+  @apply bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 px-2 py-1 rounded-full text-xs font-medium;
+}
+
+/* Responsive spacing */
+.section-padding {
+  @apply p-4 sm:p-6 lg:p-8;
+}
+
+.content-padding {
+  @apply px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8;
+}
