@@ -1,6 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
-import connectPgSimple from "connect-pg-simple";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { cleanupService } from "./cleanup-service";
@@ -8,7 +7,7 @@ import { messagingCleanupService } from "./messaging-cleanup-service";
 import { sessionCleanupService } from "./session-cleanup-service";
 import { setupDatabase, validateAuthenticationSystem } from "./database-setup";
 import { createAppConfig } from "./config";
-import { pool } from "./db";
+import { connectToMongoDB, disconnectFromMongoDB } from "./mongodb";
 import { attendanceScheduler } from "./attendance-scheduler";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -44,8 +43,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   next(err);
 });
 
-// Session configuration will be set up during server initialization
-
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
@@ -80,6 +77,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Server initialization
 const initializeServer = async () => {
   try {
+    log("Connecting to MongoDB...");
+    await connectToMongoDB();
+    
     log("Initializing authentication system...");
     const setupResult = await setupDatabase();
     log(setupResult.success ? setupResult.message : `Database setup warning: ${setupResult.message}`);
@@ -98,16 +98,14 @@ const startServer = async () => {
   // Initialize configuration
   config = createAppConfig();
   
-  // Set up session configuration with PostgreSQL store
-  const PgSession = connectPgSimple(session);
+  // Set up session configuration with MongoDB store
+  const MongoStore = require('connect-mongo');
   app.use(
     session({
-      store: new PgSession({
-        pool,
-        tableName: "session", // Use different table name to avoid conflict with Drizzle schema
-        createTableIfMissing: true,
-        pruneSessionInterval: 60 * 15, // Prune expired sessions every 15 minutes
-        errorLog: console.error,
+      store: MongoStore.create({
+        mongoUrl: config.database.url,
+        ttl: 7 * 24 * 60 * 60, // 7 days
+        autoRemove: 'native',
       }),
       secret: config.auth.sessionSecret,
       resave: false,
@@ -117,7 +115,7 @@ const startServer = async () => {
       cookie: {
         secure: false, // Set to false for development
         httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days instead of 24 hours
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         sameSite: "lax",
       },
     })
@@ -130,9 +128,6 @@ const startServer = async () => {
     try {
       await initializeServer();
       
-      const { createMissingTables } = await import('./create-missing-tables.js');
-      await createMissingTables();
-
       // Initialize sample data for comprehensive dashboard demonstration
       const { initializeSampleData } = await import('./init-sample-data.js');
       const sampleDataResult = await initializeSampleData();
@@ -173,11 +168,12 @@ const startServer = async () => {
   }
 
   // Graceful shutdown
-  const shutdown = () => {
+  const shutdown = async () => {
     log("Received shutdown signal, closing gracefully");
     cleanupService.stop();
     messagingCleanupService.stop();
     attendanceScheduler.stop();
+    await disconnectFromMongoDB();
     server.close(() => {
       log("Server closed");
       process.exit(0);
