@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
-import { registerRoutes } from "./routes";
+import { registerRoutes } from "./mongodb-routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { cleanupService } from "./cleanup-service";
 import { messagingCleanupService } from "./messaging-cleanup-service";
