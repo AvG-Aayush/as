@@ -99,7 +99,7 @@ const startServer = async () => {
   config = createAppConfig();
   
   // Set up session configuration with MongoDB store
-  const MongoStore = require('connect-mongo');
+  const { default: MongoStore } = await import('connect-mongo');
   app.use(
     session({
       store: MongoStore.create({
