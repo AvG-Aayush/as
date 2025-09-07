@@ -32,7 +32,7 @@ export function registerRoutes(app: Express): void {
   app.use(authMiddleware);
 
   // Authentication Routes
-  app.post("/api/auth/login", async (req: Request, res: Response) => {
+  app.post("/api/login", async (req: Request, res: Response) => {
     try {
       const { username, password } = loginValidationSchema.parse(req.body);
       
@@ -68,7 +68,7 @@ export function registerRoutes(app: Express): void {
     }
   });
 
-  app.post("/api/auth/logout", (req: Request, res: Response) => {
+  app.post("/api/logout", (req: Request, res: Response) => {
     req.session.destroy((err) => {
       if (err) {
         console.error("Logout error:", err);
@@ -79,19 +79,17 @@ export function registerRoutes(app: Express): void {
     });
   });
 
-  app.get("/api/auth/me", requireAuth, (req: AuthenticatedRequest, res: Response) => {
+  app.get("/api/user", requireAuth, (req: AuthenticatedRequest, res: Response) => {
     res.json({ 
-      user: {
-        id: req.user.id,
-        username: req.user.username,
-        fullName: req.user.fullName,
-        role: req.user.role,
-        department: req.user.department,
-        position: req.user.position,
-        profilePicture: req.user.profilePicture,
-        email: req.user.email,
-        phone: req.user.phone
-      }
+      id: req.user.id,
+      username: req.user.username,
+      fullName: req.user.fullName,
+      role: req.user.role,
+      department: req.user.department,
+      position: req.user.position,
+      profilePicture: req.user.profilePicture,
+      email: req.user.email,
+      phone: req.user.phone
     });
   });
 
