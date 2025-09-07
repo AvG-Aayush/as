@@ -5,7 +5,7 @@ import { setupVite, serveStatic, log } from "./vite";
 import { cleanupService } from "./cleanup-service";
 import { messagingCleanupService } from "./messaging-cleanup-service";
 import { sessionCleanupService } from "./session-cleanup-service";
-import { setupDatabase, validateAuthenticationSystem } from "./database-setup";
+import { setupDatabase, validateAuthenticationSystem } from "./mongodb-setup";
 import { createAppConfig } from "./config";
 import { connectToMongoDB, disconnectFromMongoDB } from "./mongodb";
 import { attendanceScheduler } from "./attendance-scheduler";
