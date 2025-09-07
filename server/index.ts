@@ -129,7 +129,7 @@ const startServer = async () => {
       await initializeServer();
       
       // Initialize sample data for comprehensive dashboard demonstration
-      const { initializeSampleData } = await import('./init-sample-data.js');
+      const { initializeSampleData } = await import('./init-mongodb-sample-data');
       const sampleDataResult = await initializeSampleData();
       log(`Sample data: ${sampleDataResult.message}`);
 
