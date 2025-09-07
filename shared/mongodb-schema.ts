@@ -420,12 +420,12 @@ export const Project = mongoose.model('Project', projectSchema);
 export const HourAllocation = mongoose.model('HourAllocation', hourAllocationSchema);
 
 // Validation schemas using Zod (keeping existing ones and adding new ones)
-export const loginSchema = z.object({
+export const loginValidationSchema = z.object({
   username: z.string().min(1, "Username is required"),
   password: z.string().min(1, "Password is required"),
 });
 
-export const registerSchema = z.object({
+export const registerValidationSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   email: z.string().email("Valid email is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -435,14 +435,14 @@ export const registerSchema = z.object({
   position: z.string().optional(),
 });
 
-export const leaveRequestSchema = z.object({
+export const leaveRequestValidationSchema = z.object({
   type: z.enum(["annual", "casual", "sick", "emergency", "maternity", "paternity", "bereavement"]),
   startDate: z.string().min(1, "Start date is required"),
   endDate: z.string().min(1, "End date is required"),
   reason: z.string().min(5, "Please provide a reason (minimum 5 characters)"),
 });
 
-export const messageSchema = z.object({
+export const messageValidationSchema = z.object({
   recipientId: z.string().min(1, "Recipient is required"),
   groupId: z.string().optional(),
   content: z.string().min(1, "Message content is required"),
@@ -453,7 +453,7 @@ export const messageSchema = z.object({
 });
 
 // NEW: Project schemas
-export const projectSchema = z.object({
+export const projectValidationSchema = z.object({
   name: z.string().min(1, "Project name is required"),
   description: z.string().optional(),
   startDate: z.string().min(1, "Start date is required"),
@@ -467,7 +467,7 @@ export const projectSchema = z.object({
   tags: z.array(z.string()).default([]),
 });
 
-export const hourAllocationSchema = z.object({
+export const hourAllocationValidationSchema = z.object({
   projectId: z.string().min(1, "Project is required"),
   attendanceId: z.string().min(1, "Attendance record is required"),
   date: z.string().min(1, "Date is required"),
@@ -477,9 +477,9 @@ export const hourAllocationSchema = z.object({
 });
 
 // Type exports
-export type LoginFormData = z.infer<typeof loginSchema>;
-export type RegisterFormData = z.infer<typeof registerSchema>;
-export type LeaveRequestFormData = z.infer<typeof leaveRequestSchema>;
-export type MessageFormData = z.infer<typeof messageSchema>;
-export type ProjectFormData = z.infer<typeof projectSchema>;
-export type HourAllocationFormData = z.infer<typeof hourAllocationSchema>;
+export type LoginFormData = z.infer<typeof loginValidationSchema>;
+export type RegisterFormData = z.infer<typeof registerValidationSchema>;
+export type LeaveRequestFormData = z.infer<typeof leaveRequestValidationSchema>;
+export type MessageFormData = z.infer<typeof messageValidationSchema>;
+export type ProjectFormData = z.infer<typeof projectValidationSchema>;
+export type HourAllocationFormData = z.infer<typeof hourAllocationValidationSchema>;
