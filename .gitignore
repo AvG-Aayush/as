@@ -120,3 +120,7 @@ uploads/*
 # .replit
 # replit.nix
 .vercel
+-e 
+# Environment files
+*.env
+*.env.*
